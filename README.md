@@ -1,5 +1,8 @@
 # max-cli
 定制自己的脚手架,提高工作效率(windows里用git-bash不要用cmd!)
+```
+
+```
 - 下载指定文件/GitHub仓库 URL/filename/dir
 - 生成cache/刷新 可选选项
 ```
@@ -12,6 +15,14 @@ chalk: 可以给终端的字体加上颜色。
 log-symbols: 可以在终端上显示出 √ 或 × 等的图标。
 ```
 - TODO:package.json没有生成
+
 2018-6-28 00:50:40
-直接下载git文件
+- 直接下载git文件
+
 2018-6-29 00:06:29
+
+2018-6-29 00:56:45
+```
+  不用TJ的commander 自己处理process.argv伪数组
+  command('cmd <name>', 'description').action(function)
+```
