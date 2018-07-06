@@ -34,6 +34,8 @@ log-symbols: 可以在终端上显示出 √ 或 × 等的图标。
 ```
 2018-7-6 10:31:07
 ```
-  下载文件有时会是socket hang up
-  -g安装有问题
+  √ 下载文件有时会是socket hang up: content为 "socket hang up" 就失败
+  √ -g安装有问题: index.js前加 #! node
+  全局安装后 颜色丢失;
+  √ 输入的会重复一遍: 自己处理输入
 ```

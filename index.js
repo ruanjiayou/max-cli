@@ -5,9 +5,7 @@ const IO = require('./lib/io');
 const hinter = require('./lib/hinter');
 const program = require('./lib/program');
 const configs = require('./config');
-const inquirer = require('inquirer');
 const chalk = require('chalk');
-const symbols = require('log-symbols');
 
 // 参数列表
 const args = process.argv.map((it) => { return it; });
@@ -32,34 +30,40 @@ program
   });
 
 program
-  .command('init <name>')
+  .command('init <name> <type>')
   .description('创建文件夹,初始化一个空的项目')
-  .action(async function (name) {
-    //console.log(arguments, 'arguments');// {0:'a'} arguments
-    //console.log(name, 'name');// a name
+  .action(async function (name, type) {
     const project_path = `${CWD_PATH}/${name}`;
     if (IO.isDirExists(project_path)) {
       hinter('ProjectExisted', name);
+      return;
     } else {
-      const answers = await inquirer.prompt([
-        { name: 'description', message: '请输入项目描述' },
-        { name: 'author', message: '请输入作者名称' }
+      const answers = await program.prompt([
+        { name: 'description', message: '请输入项目描述: ' },
+        { name: 'author', message: '请输入作者名称: ' }
       ]);
-      const filepath = `${project_path}/package.json`;
+      const packagePath = `${project_path}/package.json`;
       const meta = {
         name,
         author: answers.author,
         description: answers.description
       };
       IO.mkdirs(project_path);
-      const content = IO.readTxt(`${__dirname}/template/default.hbs`);
-      IO.writeTxt(filepath, program.compile(content, meta));
-      console.log(symbols.success, chalk.green('项目初始化完成!'));
+      const file = type == undefined ? 'default' : type;
+      const filepath = `${__dirname}/template/${file}.hbs`;
+      if (IO.isFileExists(filepath)) {
+        const content = IO.readTxt(filepath);
+        IO.writeTxt(packagePath, program.compile(content, meta));
+        console.log(chalk.green('√ 项目初始化完成!'));
+      } else {
+        hinter('TemplateNotFound', 'file');
+        return;
+      }
     }
     if (!IO.isFileExists(`${project_path}/.vscode`)) {
       IO.mkdirs(`${project_path}/.vscode`);
       IO.writeTxt(`${project_path}/.vscode/.max.json`, JSON.stringify(configs, null, 2));
-      console.log(symbols.success, chalk.green('初始配置已写入!'));
+      console.log(chalk.green('√ 初始配置已写入!'));
     } else {
       hinter('ConfigExisted', '.vscode/.max.json');
     }
@@ -111,7 +115,7 @@ program
     str = JSON.stringify(temp_config, null, 2);
     IO.writeTxt(CONFIG_PATH_INFO.path, str);
     await program.down(url, path.join(CWD_PATH, filepath));
-    console.log(symbols.success, chalk.green(`添加配置 ${name} 成功!`));
+    console.log(chalk.green(`√ 添加配置 ${name} 成功!`));
   });
 
 program
@@ -124,7 +128,7 @@ program
     delete temp_config[name];
     IO.delFile(filepath);
     IO.writeTxt(CONFIG_PATH_INFO.path, JSON.stringify(temp_config, null, 2));
-    console.log(symbols.success, chalk.green(`移除配置 ${name} 成功!`));
+    console.log(chalk.green(`√ 移除配置 ${name} 成功!`));
   });
 
 program

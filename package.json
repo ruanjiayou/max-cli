@@ -1,13 +1,11 @@
 {
   "name": "max-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "定制自己的脚手架,提高工作效率",
   "bin": {
     "max-cli": "./index.js"
   },
   "dependencies": {
-    "chalk": "^2.4.1",
-    "inquirer": "^6.0.0",
-    "log-symbols": "^2.2.0"
+    "chalk": "^2.4.1"
   }
 }
