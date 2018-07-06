@@ -1,3 +1,5 @@
+#! node
+
 const path = require('path');
 const IO = require('./lib/io');
 const hinter = require('./lib/hinter');

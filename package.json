@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "定制自己的脚手架,提高工作效率",
   "bin": {
-    "max-cli": "index.js"
+    "max-cli": "./index.js"
   },
   "dependencies": {
     "chalk": "^2.4.1",
